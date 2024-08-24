@@ -76,7 +76,7 @@ def signin():
     response = supabase.auth.sign_in_with_oauth({
         "provider": "notion",
         "options": {
-            "redirect_to": "http://127.0.0.1:8080/signin/callback"  #"https://asknotes.axellim.com:5000/signin/callback"
+            "redirect_to": "https://asknotes.axellim.com:5000/signin/callback"
         }
     })
     return redirect(response.url)
@@ -142,8 +142,6 @@ def initialise():
                         item_child_database_title = children["child_database"]["title"]
                         if item_child_database_title == "Courses":
                             courses_id = children["id"]
-                            print(children)
-                            print(children["last_edited_time"])
                             courses_last_updated = children["last_edited_time"]
                     if item_type == "child_page":
                         item_child_page_title = children["child_page"]["title"]
@@ -179,8 +177,9 @@ def embedding():
             user_id = user[0]
             notion_api = NotionAPI(user[1])
             courses_id = user[3]
-            courses_db = notion_api.get_database(courses_id)
-            if courses_db["last_edited_time"] != user[6]:
+            courses_db = notion_api.query_database(courses_id, {})
+            course_last_edited_time = courses_db["results"][0]["last_edited_time"]
+            if course_last_edited_time != user[6]:
                 courses_query = notion_api.query_database(courses_id, {
                     "filter": {
                         "property": "Course Materials",
@@ -213,6 +212,10 @@ def embedding():
                         documents, storage_context=storage_context, embed_model=embed_model, show_progress=True
                     )
                     shutil.rmtree(temp_folder)
+                sql = "UPDATE asknotes.users SET courses_last_updated = %s WHERE id = %s"
+                val = (course_last_edited_time, user_id)
+                tidb_cursor.execute(sql, val)
+                tidb.commit()
         return ""
     else:
         return "Unauthorized. Please <a href='/'>Sign In</a>"
@@ -312,5 +315,5 @@ def chat_query():
 
 
 if __name__ == "__main__":
-    #ssl_context = ('cert.pem', 'key.pem')
-    app.run(host="0.0.0.0", port=8080, debug=True), #ssl_context=ssl_context)
+    ssl_context = ('cert.pem', 'key.pem')
+    app.run(host="0.0.0.0", port=5000, ssl_context=ssl_context)
