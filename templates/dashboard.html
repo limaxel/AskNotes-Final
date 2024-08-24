@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if title %}{{title}}{% else %}Dashboard{% endif %}{% endblock %}
+
+{% block content %}
+<nav class="navbar">
+    <div class="container">
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <div class="navbar-item">
+                    <image src="/static/AskNotesWhite.png" class="image" height="20px" />
+                </div>
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<section class="hero is-link is-fullheight-with-navbar">
+    <div class="hero-body has-background-dark">
+        {% if status == "template_error" %}
+        <h3 class="is-size-3 has-text-weight-bold">Oh no, an error occurred when initialising your AskNotes instance :(</h3>
+        {% elif status == "success" %}
+        <div>
+            <h3 class="is-size-3 has-text-weight-bold">🎉 Yay! Your AskNotes instance has initialised successfully!</h3>
+            <br />
+            <h6 class="is-size-6 has-text-weight-bold">Here's the link to your AskNotes instance on Notion:</h6>
+            <a href="https://www.notion.so/{{parent_id}}">https://www.notion.so/{{parent_id}}</a>
+            <br />
+            <h6 class="is-size-6 has-text-weight-bold">and the link to chat:</h6>
+            <a href="/chat">asknotes pal chat</a>
+        </div>
+        {% else %}
+        <div>
+            <h3 class="is-size-3 has-text-weight-bold">You have an active AskNotes instance.</h3>
+            <br />
+            <h6 class="is-size-6 has-text-weight-bold">Here's the link to your AskNotes instance on Notion:</h6>
+            <a href="https://www.notion.so/{{parent_id}}">https://www.notion.so/{{parent_id}}</a>
+            <br />
+            <h6 class="is-size-6 has-text-weight-bold">and the link to chat:</h6>
+            <a href="/chat">asknotes pal chat</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

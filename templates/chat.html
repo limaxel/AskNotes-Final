@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat{% endblock %}
+{% block headtags %}
+<link rel="stylesheet" href="/static/chat.css">
+{% endblock %}
+
+{% block content %}
+<div class="container is-flex is-flex-direction-column" style="height: 100vh">
+    <nav class="navbar is-flex is-align-items-center is-justify-content-center px-2" role="navigation" aria-label="main navigation">
+        <!-- <i class="fa-solid fa-caret-right is-size-3"></i> -->
+        <div>
+            <span class="has-text-weight-bold">AskNotes Pal</span>
+            <!-- <input class="input" type="text" value="New Chat" style="width: min-content" /> -->
+        </div>
+        <!-- <i class="fa-solid fa-caret-right is-size-3 is-invisible"></i> -->
+    </nav>
+    <div id="messageWindow" class="is-flex is-flex-direction-column is-flex-grow-1 message-window">
+        <div class="box p-3 has-background-grey-darker ml-2 chat-bubble-left">
+            <span id="message-1-content" class="has-text-light">Hi, I am AskNotes Pal, your virtual pal! Ask me anything about your course notes!</span>
+            <div class="is-flex is-justify-content-space-between has-text-grey-light is-size-7 mt-2">
+                <span id="message-1-role">AskNotes Pal</span>
+                <span id="message-1-time"></span>
+            </div>
+        </div>
+    </div>
+    <form id="queryForm" class="m-2" onsubmit="event.preventDefault();processQuery();">
+        <input id="queryField" class="input" type="text" name="query" placeholder="Enter your question" />
+            <i id="sendButton" class="fas fa-paper-plane send-button" onclick="processQuery()"></i>
+            <i id="queryWait" class="fa-solid fa-hourglass-start query-wait is-hidden"></i>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/gh/jitbit/HtmlSanitizer@master/HtmlSanitizer.js"></script>
+<script src="/static/chat.js"></script>
+{% endblock %}

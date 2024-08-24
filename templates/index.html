@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In{% endblock %}
+
+{% block content %}
+<section class="hero is-fullheight">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <div class="columns is-centered">
+                <div class="column is-4">
+                    <div class="card has-background-light">
+                        <div class="card-header p-5 is-flex-direction-column is-justify-content-center is-align-items-center">
+                            <image src="/static/AskNotes.png" alt="AskNotes Logo" width="200px" />
+                            <p class="card-header-title has-text-black">To continue, sign in with Notion</p>
+                            <a href="/signin" class="button">
+                                <span class="icon">
+                                  <image src="/static/NotionLogo.png" alt="Notion Logo" height="30px" />
+                                </span>
+                                <span class="ml-2">Sign In with Notion</span>
+                              </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
